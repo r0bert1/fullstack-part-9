@@ -17,14 +17,18 @@ const parseArguments = (args: Array<string>): CommandLineArguments => {
   if (args.length < 4) throw new Error("Not enough arguments");
   if (args.length > 4) throw new Error("Too many arguments");
 
-  if (Array.isArray(JSON.parse(process.argv[2])) && !isNaN(Number(args[3]))) {
-    return {
-      dailyExerciseHours: Array<number>(JSON.parse(process.argv[2])),
-      target: Number(args[3]),
-    };
-  } else {
-    throw new Error("Provided values were not numbers!");
+  if (!Array.isArray(JSON.parse(process.argv[2]))) {
+    throw new Error("First argument was not an array");
   }
+
+  if (isNaN(Number(args[3]))) {
+    throw new Error("Second argument was not a number");
+  }
+
+  return {
+    dailyExerciseHours: Array<number>(JSON.parse(process.argv[2])),
+    target: Number(args[3]),
+  };
 };
 
 const calculateExercises = (
