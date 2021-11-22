@@ -16,14 +16,10 @@ interface CommandLineArguments {
 const parseArguments = (args: Array<string>): CommandLineArguments => {
   if (args.length < 4) throw new Error("Not enough arguments");
   if (args.length > 4) throw new Error("Too many arguments");
-
-  if (!Array.isArray(JSON.parse(process.argv[2]))) {
+  if (!Array.isArray(JSON.parse(process.argv[2])))
     throw new Error("First argument was not an array");
-  }
-
-  if (isNaN(Number(args[3]))) {
+  if (isNaN(Number(args[3])))
     throw new Error("Second argument was not a number");
-  }
 
   return {
     dailyExerciseHours: Array<number>(JSON.parse(process.argv[2])),
