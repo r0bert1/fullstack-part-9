@@ -1,9 +1,9 @@
-interface Arguments {
+interface CommandLineArguments {
   height: number;
   weight: number;
 }
 
-const parseArguments = (args: Array<string>): Arguments => {
+const parseArguments = (args: Array<string>): CommandLineArguments => {
   if (args.length < 4) throw new Error("Not enough arguments");
   if (args.length > 4) throw new Error("Too many arguments");
 
@@ -40,3 +40,5 @@ try {
   }
   console.log(errorMessage);
 }
+
+export {};

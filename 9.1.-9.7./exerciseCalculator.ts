@@ -8,6 +8,25 @@ interface Result {
   average: number;
 }
 
+interface CommandLineArguments {
+  dailyExerciseHours: Array<number>;
+  target: number;
+}
+
+const parseArguments = (args: Array<string>): CommandLineArguments => {
+  if (args.length < 4) throw new Error("Not enough arguments");
+  if (args.length > 4) throw new Error("Too many arguments");
+
+  if (Array.isArray(JSON.parse(process.argv[2])) && !isNaN(Number(args[3]))) {
+    return {
+      dailyExerciseHours: Array<number>(JSON.parse(process.argv[2])),
+      target: Number(args[3]),
+    };
+  } else {
+    throw new Error("Provided values were not numbers!");
+  }
+};
+
 const calculateExercises = (
   dailyExerciseHours: Array<number>,
   target: number
@@ -52,6 +71,15 @@ const calculateExercises = (
   Example script with command line arguments:
   npm run calculateExercises "[1, 0, 2, 4.5, 0, 3, 1, 0, 4]" "2" 
 */
-const dailyExerciseHours: Array<number> = JSON.parse(process.argv[2]);
-const target: number = Number(process.argv[3]);
-console.log(calculateExercises(dailyExerciseHours, target));
+try {
+  const { dailyExerciseHours, target } = parseArguments(process.argv);
+  console.log(calculateExercises(dailyExerciseHours, target));
+} catch (error: unknown) {
+  let errorMessage = "Something went wrong.";
+  if (error instanceof Error) {
+    errorMessage = " Error: " + error.message;
+  }
+  console.log(errorMessage);
+}
+
+export {};
