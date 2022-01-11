@@ -16,7 +16,7 @@ interface CommandLineArguments {
 const parseArguments = (args: Array<string>): CommandLineArguments => {
   if (args.length < 4) throw new Error("Not enough arguments");
 
-  args.slice(3).forEach((arg) => {
+  args.slice(2).forEach((arg) => {
     if (isNaN(Number(arg))) {
       throw new Error("All arguments should be numbers");
     }
