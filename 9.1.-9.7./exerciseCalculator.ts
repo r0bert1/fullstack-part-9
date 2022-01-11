@@ -9,34 +9,35 @@ interface Result {
 }
 
 interface CommandLineArguments {
-  dailyExerciseHours: Array<number>;
+  dailyExerciseHours: Array<string>;
   target: number;
 }
 
 const parseArguments = (args: Array<string>): CommandLineArguments => {
   if (args.length < 4) throw new Error("Not enough arguments");
-  if (args.length > 4) throw new Error("Too many arguments");
-  if (!Array.isArray(JSON.parse(process.argv[2])))
-    throw new Error("First argument was not an array");
-  if (isNaN(Number(args[3])))
-    throw new Error("Second argument was not a number");
+
+  args.slice(3).forEach((arg) => {
+    if (isNaN(Number(arg))) {
+      throw new Error("All arguments should be numbers");
+    }
+  });
 
   return {
-    dailyExerciseHours: Array<number>(JSON.parse(process.argv[2])),
-    target: Number(args[3]),
+    dailyExerciseHours: args.slice(3),
+    target: Number(args[2]),
   };
 };
 
 const calculateExercises = (
-  dailyExerciseHours: Array<number>,
+  dailyExerciseHours: Array<string>,
   target: number
 ): Result => {
   let trainingDays = 0;
   let periodExerciseHours = 0;
 
-  dailyExerciseHours.forEach((hrs) => {
-    periodExerciseHours += hrs;
-    if (hrs > 0) trainingDays++;
+  dailyExerciseHours.map(Number).forEach((dailyHours) => {
+    periodExerciseHours += dailyHours;
+    if (dailyHours > 0) trainingDays++;
   });
 
   const periodLength: number = dailyExerciseHours.length;
@@ -69,7 +70,7 @@ const calculateExercises = (
 
 /* 
   Example script with command line arguments:
-  npm run calculateExercises "[1, 0, 2, 4.5, 0, 3, 1, 0, 4]" "2" 
+  npm run calculateExercises 2 1 0 2 4.5 0 3 1 0 4 
 */
 try {
   const { dailyExerciseHours, target } = parseArguments(process.argv);
