@@ -1,36 +1,27 @@
-import calculateBmi from "./calculateBmi";
-
 interface CommandLineArguments {
   height: number;
   weight: number;
 }
 
-const parseArguments = (args: Array<string>): CommandLineArguments => {
-  if (args.length < 4) throw new Error("Not enough arguments");
-  if (args.length > 4) throw new Error("Too many arguments");
+export const parseBmiArguments = (
+  args: Array<string>
+): CommandLineArguments => {
+  if (args.length < 2) throw new Error("Not enough arguments");
+  if (args.length > 2) throw new Error("Too many arguments");
 
-  if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
+  if (!isNaN(Number(args[0])) && !isNaN(Number(args[1]))) {
     return {
-      height: Number(args[2]),
-      weight: Number(args[3]),
+      height: Number(args[0]),
+      weight: Number(args[1]),
     };
   } else {
     throw new Error("Provided values were not numbers!");
   }
 };
 
-/*
-  Example script with command line arguments:
-  npm run calculateBmi 180 91
-*/
-
-try {
-  const { height, weight } = parseArguments(process.argv);
-  console.log(calculateBmi(height, weight));
-} catch (error: unknown) {
-  let errorMessage = "Something went wrong.";
-  if (error instanceof Error) {
-    errorMessage = " Error: " + error.message;
-  }
-  console.log(errorMessage);
-}
+export const calculateBmi = (height: number, weight: number): string => {
+  const bmi: number = weight / (height / 100) ** 2;
+  if (bmi < 18.5) return "Underweight";
+  if (bmi > 24.9) return "Overweight";
+  return "Normal";
+};

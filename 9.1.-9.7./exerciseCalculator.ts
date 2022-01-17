@@ -13,22 +13,24 @@ interface CommandLineArguments {
   target: number;
 }
 
-const parseArguments = (args: Array<string>): CommandLineArguments => {
-  if (args.length < 4) throw new Error("Not enough arguments");
+export const parseExerciseArguments = (
+  args: Array<string>
+): CommandLineArguments => {
+  if (args.length < 2) throw new Error("Not enough arguments");
 
-  args.slice(2).forEach((arg) => {
+  args.forEach((arg) => {
     if (isNaN(Number(arg))) {
       throw new Error("All arguments should be numbers");
     }
   });
 
   return {
-    dailyExerciseHours: args.slice(3),
-    target: Number(args[2]),
+    dailyExerciseHours: args.slice(1),
+    target: Number(args[0]),
   };
 };
 
-const calculateExercises = (
+export const calculateExercises = (
   dailyExerciseHours: Array<string>,
   target: number
 ): Result => {
@@ -67,20 +69,3 @@ const calculateExercises = (
     average,
   };
 };
-
-/* 
-  Example script with command line arguments:
-  npm run calculateExercises 2 1 0 2 4.5 0 3 1 0 4 
-*/
-try {
-  const { dailyExerciseHours, target } = parseArguments(process.argv);
-  console.log(calculateExercises(dailyExerciseHours, target));
-} catch (error: unknown) {
-  let errorMessage = "Something went wrong.";
-  if (error instanceof Error) {
-    errorMessage = " Error: " + error.message;
-  }
-  console.log(errorMessage);
-}
-
-export {};
