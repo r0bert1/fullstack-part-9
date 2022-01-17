@@ -1,11 +1,9 @@
-interface CommandLineArguments {
+export interface Arguments {
   height: number;
   weight: number;
 }
 
-export const parseBmiArguments = (
-  args: Array<string>
-): CommandLineArguments => {
+export const parseArguments = (args: Array<string>): Arguments => {
   if (args.length < 2) throw new Error("Not enough arguments");
   if (args.length > 2) throw new Error("Too many arguments");
 

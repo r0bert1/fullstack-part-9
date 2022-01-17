@@ -8,14 +8,12 @@ interface Result {
   average: number;
 }
 
-interface CommandLineArguments {
+export interface Arguments {
   dailyExerciseHours: Array<string>;
   target: number;
 }
 
-export const parseExerciseArguments = (
-  args: Array<string>
-): CommandLineArguments => {
+export const parseArguments = (args: Array<string>): Arguments => {
   if (args.length < 2) throw new Error("Not enough arguments");
 
   args.forEach((arg) => {

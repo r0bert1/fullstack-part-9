@@ -1,9 +1,14 @@
 import express from "express";
 import bodyParser from "body-parser";
-import { parseBmiArguments, calculateBmi } from "./bmiCalculator";
 import {
-  parseExerciseArguments,
+  parseArguments as parseBmiArguments,
+  calculateBmi,
+  Arguments as BmiArguments,
+} from "./bmiCalculator";
+import {
+  parseArguments as parseExerciseArguments,
   calculateExercises,
+  Arguments as ExerciseArguments,
 } from "./exerciseCalculator";
 
 const app = express();
@@ -17,7 +22,7 @@ app.get("/hello", (_req, res) => {
 app.get("/bmi", (req, res) => {
   const { weight, height } = req.query;
 
-  let parsedArguments;
+  let parsedArguments: BmiArguments;
 
   try {
     parsedArguments = parseBmiArguments([String(height), String(weight)]);
@@ -41,7 +46,7 @@ app.post("/exercises", (req, res) => {
     return res.send({ error: "Parameters missing" });
   }
 
-  let parsedArguments;
+  let parsedArguments: ExerciseArguments;
 
   try {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment
