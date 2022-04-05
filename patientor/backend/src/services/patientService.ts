@@ -3,7 +3,8 @@ import { v1 as uuid } from "uuid";
 import patientsData from "../../data/patients.json";
 import { NonSensitivePatient, NewPatient } from "../types";
 
-const patients: Array<NonSensitivePatient> = patientsData;
+const patients: Array<NonSensitivePatient> =
+  patientsData as Array<NonSensitivePatient>;
 
 export const getNonSensitivePatients = (): NonSensitivePatient[] => {
   return patients.map(({ id, name, dateOfBirth, gender, occupation }) => ({
